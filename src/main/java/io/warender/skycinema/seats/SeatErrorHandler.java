@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public final class SeatErrorHandler {
 
-  @ExceptionHandler(NotUniqueSeatPerScreeningRoom.class)
-  public ResponseEntity<ProblemDetail> handleNotUniqueSeatPerScreeningRoom(NotUniqueSeatPerScreeningRoom ex) {
+  @ExceptionHandler(RepeatedSeatInScreeningRoom.class)
+  public ResponseEntity<ProblemDetail> handleNotUniqueSeatPerScreeningRoom(RepeatedSeatInScreeningRoom ex) {
     var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
     return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
   }

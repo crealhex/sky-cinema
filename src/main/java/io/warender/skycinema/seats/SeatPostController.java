@@ -43,7 +43,7 @@ public final class SeatPostController {
       if (e.contains(PSQLException.class)) {
         PSQLException psqlException = (PSQLException) e.getMostSpecificCause();
         if ("23505".equals(psqlException.getSQLState())) {
-          throw new NotUniqueSeatPerScreeningRoom();
+          throw new RepeatedSeatInScreeningRoom();
         }
       }
       throw e;
