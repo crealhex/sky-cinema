@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.warender.skycinema.shared.ApiVersions;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,8 +32,8 @@ public final class ScreeningRoomPostController {
     var screeningRoom = new ScreeningRoom();
     screeningRoom.setCapacity(request.capacity());
     screeningRoom.setStatus(request.status());
-    return ResponseEntity.ok(screeningRoomStorage.save(screeningRoom));
+    return ResponseEntity.status(HttpStatus.CREATED).body(screeningRoomStorage.save(screeningRoom));
   }
 
-  public record Request(Integer capacity, String status) {}
+  public record Request(Integer capacity, ScreeningRoomStatus status) {}
 }
