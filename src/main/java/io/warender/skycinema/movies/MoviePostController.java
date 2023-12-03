@@ -57,7 +57,8 @@ public final class MoviePostController {
 
   public record Request(
       String title,
-      @NotEmpty(message = "At least one language code must be provided") Set<String> languages,
+      @NotEmpty(message = "At least one language code must be provided")
+      Set<String> languages,
       Integer durationInMinutes,
       Integer ageRestriction,
       MovieStatus status) {}
