@@ -21,6 +21,12 @@ public final class Seat {
   @JoinColumn(name = "screening_room_id")
   private ScreeningRoom screeningRoom;
 
+  @Column(name = "allocated")
+  private boolean allocated;
+
+  @Column(name = "row")
   private String row;
+
+  @Column(name = "number")
   private int number;
 }
