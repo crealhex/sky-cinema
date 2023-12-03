@@ -31,7 +31,7 @@ class ScreeningRoomGetControllerTest {
   @Test
   void givenScreeningRoomId_thenReturnScreemingRoomEntity() {
     var screeningRoom = new ScreeningRoom();
-    screeningRoom.setCapacity(100);
+    screeningRoom.setSetMaxCapacity(100);
     screeningRoom.setStatus(ScreeningRoomStatus.OPEN);
     screeningRoomStorage.save(screeningRoom);
 

@@ -4,12 +4,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.warender.skycinema.shared.ApiVersions;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public final class ScreeningRoomPostController {
@@ -30,10 +32,11 @@ public final class ScreeningRoomPostController {
   @PostMapping(ApiVersions.ONE + "/backoffice/screening-rooms")
   public ResponseEntity<ScreeningRoom> createScreeningRoom(@RequestBody Request request) {
     var screeningRoom = new ScreeningRoom();
-    screeningRoom.setCapacity(request.capacity());
+    screeningRoom.setSetMaxCapacity(request.maxCapacity());
     screeningRoom.setStatus(request.status());
-    return ResponseEntity.status(HttpStatus.CREATED).body(screeningRoomStorage.save(screeningRoom));
+    var createdScreeningRoom = screeningRoomStorage.save(screeningRoom);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdScreeningRoom);
   }
 
-  public record Request(Integer capacity, ScreeningRoomStatus status) {}
+  public record Request(Integer maxCapacity, Integer seatsPerRow, ScreeningRoomStatus status) {}
 }

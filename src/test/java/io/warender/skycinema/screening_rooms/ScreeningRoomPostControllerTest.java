@@ -18,7 +18,7 @@ class ScreeningRoomPostControllerTest {
   @Test
   void createScreeningRoom() {
     var SCREENING_ROOMS_URL = ApiVersions.ONE + "/backoffice/screening-rooms";
-    var screeningRoom = new ScreeningRoomPostController.Request(100, ScreeningRoomStatus.OPEN);
+    var screeningRoom = new ScreeningRoomPostController.Request(7, 3, ScreeningRoomStatus.OPEN);
     var response = testRestTemplate.postForEntity(SCREENING_ROOMS_URL, screeningRoom, ScreeningRoom.class);
     assertEquals(response.getStatusCode(), HttpStatus.CREATED);
   }

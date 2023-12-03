@@ -16,8 +16,11 @@ public final class ScreeningRoom {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "capacity")
-  private int capacity;
+  @Column(name = "max_capacity")
+  private int setMaxCapacity;
+
+  @Column(name = "seats_per_row")
+  private int seatsPerRow;
 
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
