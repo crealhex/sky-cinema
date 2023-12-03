@@ -1,0 +1,9 @@
+CREATE TABLE user_identities
+(
+  id       UUID PRIMARY KEY,
+  email    VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  role     VARCHAR(255) DEFAULT 'ROLE_GUEST',
+  verified BOOLEAN      DEFAULT TRUE,
+  CHECK (role IN ('ROLE_ADMIN', 'ROLE_CUSTOMER', 'ROLE_GUEST'))
+);
