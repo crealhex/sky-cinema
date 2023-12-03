@@ -28,17 +28,21 @@ public final class MoviePostController {
       description =
           """
     You can create movies with multiple languages assigned. You should provide a list with
-    at least one language code. These languages will not affect the listing when creating
-    a movie session.
+    at least one language code. These languages will affect the creation of new movie sessions
+    for this movie.
     """)
   @PostMapping(ApiVersions.ONE + "/backoffice/movies")
   public ResponseEntity<Movie> createMovie(@Valid @RequestBody Request request) {
     log.info("[MOVIES] Creating movie: {}", request.title());
-    var languages = request.languages.stream().map(languageCode -> {
-      var language = new Language();
-      language.setCode(languageCode);
-      return language;
-    }).collect(Collectors.toSet());
+    var languages =
+        request.languages.stream()
+            .map(
+                languageCode -> {
+                  var language = new Language();
+                  language.setCode(languageCode);
+                  return language;
+                })
+            .collect(Collectors.toSet());
 
     var movie = new Movie();
     movie.setTitle(request.title());
@@ -53,8 +57,7 @@ public final class MoviePostController {
 
   public record Request(
       String title,
-      @NotEmpty(message = "At least one language code must be provided")
-      Set<String> languages,
+      @NotEmpty(message = "At least one language code must be provided") Set<String> languages,
       Integer durationInMinutes,
       Integer ageRestriction,
       MovieStatus status) {}
