@@ -1,5 +1,6 @@
 package io.warender.skycinema.screening_rooms;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.warender.skycinema.shared.ApiVersions;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,16 @@ public final class ScreeningRoomPostController {
   private final ScreeningRoomStorage screeningRoomStorage;
 
   @Tag(name = "Screening Rooms")
+  @Operation(
+      summary = "Create a screening room",
+      description =
+          """
+      Screening rooms are needed to allocate movie sessions and seats for customers. This will have
+      a fixed capacity and status.
+
+      Permissions:
+      - ROLE_ADMIN
+      """)
   @PostMapping(ApiVersions.ONE + "/backoffice/screening-rooms")
   public ResponseEntity<ScreeningRoom> createScreeningRoom(@RequestBody Request request) {
     var screeningRoom = new ScreeningRoom();

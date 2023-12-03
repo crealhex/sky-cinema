@@ -1,5 +1,6 @@
 package io.warender.skycinema.screening_rooms;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.warender.skycinema.shared.ApiVersions;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,6 +17,7 @@ public final class ScreeningRoomGetController {
   private final ScreeningRoomStorage screeningRoomStorage;
 
   @Tag(name = "Screening Rooms")
+  @Operation(summary = "Get a screening room by id")
   @GetMapping(ApiVersions.ONE + "/backoffice/screening-rooms/{screeningRoomId}")
   public ResponseEntity<ScreeningRoom> getScreeningRooms(@PathVariable Integer screeningRoomId) {
     return ResponseEntity.ok(
