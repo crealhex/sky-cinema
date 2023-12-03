@@ -1,10 +1,12 @@
 package io.warender.skycinema.movie_sessions;
 
 import io.warender.skycinema.movies.Language;
-import io.warender.skycinema.movies.Movie;
+import io.warender.skycinema.movies.MovieStorage;
 import io.warender.skycinema.screening_rooms.ScreeningRoom;
 import io.warender.skycinema.shared.ApiVersions;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 public final class MovieSessionPostController {
 
   private final MovieSessionStorage movieSessionStorage;
+  private final MovieStorage movieStorage;
 
   @PostMapping(ApiVersions.ONE + "/backoffice/movie-sessions")
   public ResponseEntity<MovieSession> registerMovieSession(@Valid @RequestBody Request request) {
     var screeningRoom = new ScreeningRoom();
     screeningRoom.setId(request.screeningRoomId());
 
-    var movie = new Movie();
-    movie.setId(request.movieId());
+    var movie = movieStorage.findById(request.movieId()).orElseThrow(EntityNotFoundException::new);
 
     var language = new Language();
     language.setCode(request.languageCode());
@@ -36,7 +38,10 @@ public final class MovieSessionPostController {
     movieSession.setScreeningRoom(screeningRoom);
     movieSession.setLanguage(language);
     movieSession.setStartTime(request.startTime());
-    movieSession.setEndTime(request.endTime());
+
+    var endTime = request.startTime().plus(Duration.ofMinutes(movie.getDurationInMinutes()));
+    movieSession.setEndTime(endTime);
+
     movieSession.setPriceInCents(request.priceInCents());
     movieSession.setStatus(MovieSessionStatus.UPCOMING);
 
@@ -49,6 +54,5 @@ public final class MovieSessionPostController {
       Integer screeningRoomId,
       String languageCode,
       Instant startTime,
-      Instant endTime,
       Integer priceInCents) {}
 }
