@@ -45,7 +45,7 @@ class ScreeningRoomGetControllerTest {
   @Test
   void givenScreeningRoomId_whenScreeningRoomNotFound_thenReturnNotFound() {
     var response =
-        testRestTemplate.getForEntity(SCREENING_ROOMS_URL + "/1", ProblemDetail.class);
+        testRestTemplate.getForEntity(SCREENING_ROOMS_URL + "/999999", ProblemDetail.class);
 
     assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
   }

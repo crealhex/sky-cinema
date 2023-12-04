@@ -19,9 +19,11 @@ import org.springframework.http.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SeatPostControllerTest {
 
-  @Autowired private TestRestTemplate testRestTemplate;
+  @Autowired
+  private TestRestTemplate testRestTemplate;
 
-  @Autowired private ScreeningRoomStorage screeningRoomStorage;
+  @Autowired
+  private ScreeningRoomStorage screeningRoomStorage;
 
   @BeforeEach
   void cleanUp() {
