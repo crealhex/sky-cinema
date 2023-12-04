@@ -17,7 +17,7 @@ public final class ScreeningRoom {
   private Integer id;
 
   @Column(name = "max_capacity")
-  private int setMaxCapacity;
+  private int maxCapacity;
 
   @Column(name = "seats_per_row")
   private int seatsPerRow;

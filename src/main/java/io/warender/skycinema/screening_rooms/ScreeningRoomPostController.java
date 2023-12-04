@@ -32,8 +32,9 @@ public final class ScreeningRoomPostController {
   @PostMapping(ApiVersions.ONE + "/backoffice/screening-rooms")
   public ResponseEntity<ScreeningRoom> createScreeningRoom(@RequestBody Request request) {
     var screeningRoom = new ScreeningRoom();
-    screeningRoom.setSetMaxCapacity(request.maxCapacity());
+    screeningRoom.setMaxCapacity(request.maxCapacity());
     screeningRoom.setStatus(request.status());
+    screeningRoom.setSeatsPerRow(request.seatsPerRow());
     var createdScreeningRoom = screeningRoomStorage.save(screeningRoom);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdScreeningRoom);
   }

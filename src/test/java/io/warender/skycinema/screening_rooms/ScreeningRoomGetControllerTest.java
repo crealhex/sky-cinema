@@ -31,12 +31,12 @@ class ScreeningRoomGetControllerTest {
   @Test
   void givenScreeningRoomId_thenReturnScreemingRoomEntity() {
     var screeningRoom = new ScreeningRoom();
-    screeningRoom.setSetMaxCapacity(100);
+    screeningRoom.setMaxCapacity(100);
     screeningRoom.setStatus(ScreeningRoomStatus.OPEN);
-    screeningRoomStorage.save(screeningRoom);
+    screeningRoom = screeningRoomStorage.save(screeningRoom);
 
     var response =
-        testRestTemplate.getForEntity(SCREENING_ROOMS_URL + "/1", ScreeningRoom.class);
+        testRestTemplate.getForEntity(SCREENING_ROOMS_URL + "/" + screeningRoom.getId(), ScreeningRoom.class);
 
     assertEquals(response.getStatusCode(), HttpStatus.OK);
     assertNotNull(response.getBody());
