@@ -12,10 +12,7 @@ import org.postgresql.util.PSQLException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -25,9 +22,8 @@ public final class AssignSeatsToHallPutController {
   private final SeatStorage seatStorage;
   private final CinemaHallStorage cinemaHallStorage;
 
-  // TODO: Verify if the client is sending more seats per row than the max allowed by the screening
   @Tag(name = "Seats")
-  @PostMapping(ApiVersions.ONE + "/backoffice/cinema-halls/{cinemaHallId}/seats")
+  @PutMapping(ApiVersions.ONE + "/backoffice/cinema-halls/{cinemaHallId}/seats")
   public ResponseEntity<List<Seat>> assignSeatsToCinemaHall(
     @PathVariable Integer cinemaHallId, @RequestBody List<Request> request) {
     var cinemaHall =
