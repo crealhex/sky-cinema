@@ -14,4 +14,10 @@ public final class CinemaHallErrorHandler {
     var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
     return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
   }
+
+  @ExceptionHandler(RepeatedSeatInCinemaHall.class)
+  public ResponseEntity<ProblemDetail> handleNotUniqueSeatPerScreeningRoom(RepeatedSeatInCinemaHall ex) {
+    var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
+  }
 }

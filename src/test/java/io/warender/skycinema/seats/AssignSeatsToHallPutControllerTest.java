@@ -2,6 +2,7 @@ package io.warender.skycinema.seats;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import io.warender.skycinema.cinema_halls.AssignSeatsToHallPutController;
 import io.warender.skycinema.cinema_halls.CinemaHall;
 import io.warender.skycinema.cinema_halls.CinemaHallStatus;
 import io.warender.skycinema.cinema_halls.CinemaHallStorage;
@@ -17,7 +18,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SeatPostControllerTest {
+class AssignSeatsToHallPutControllerTest {
 
   @Autowired
   private TestRestTemplate testRestTemplate;
@@ -42,9 +43,9 @@ class SeatPostControllerTest {
         ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
         Set.of(
-            new SeatPostController.Request("A", 1),
-            new SeatPostController.Request("A", 2),
-            new SeatPostController.Request("A", 3));
+            new AssignSeatsToHallPutController.Request("A", 1),
+            new AssignSeatsToHallPutController.Request("A", 2),
+            new AssignSeatsToHallPutController.Request("A", 3));
     var response = testRestTemplate.postForEntity(SEATS_URL, seats, ArrayList.class);
 
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -61,7 +62,7 @@ class SeatPostControllerTest {
     var SEATS_URL =
         ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
-        List.of(new SeatPostController.Request("A", 1), new SeatPostController.Request("A", 1));
+        List.of(new AssignSeatsToHallPutController.Request("A", 1), new AssignSeatsToHallPutController.Request("A", 1));
     var response = testRestTemplate.postForEntity(SEATS_URL, seats, ProblemDetail.class);
 
     assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
@@ -79,12 +80,12 @@ class SeatPostControllerTest {
         ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
         List.of(
-            new SeatPostController.Request("A", 1),
-            new SeatPostController.Request("A", 2),
-            new SeatPostController.Request("A", 3));
+            new AssignSeatsToHallPutController.Request("A", 1),
+            new AssignSeatsToHallPutController.Request("A", 2),
+            new AssignSeatsToHallPutController.Request("A", 3));
     testRestTemplate.postForEntity(SEATS_URL, seats, ArrayList.class);
 
-    var additionalSeat = List.of(new SeatPostController.Request("A", 4));
+    var additionalSeat = List.of(new AssignSeatsToHallPutController.Request("A", 4));
     var response = testRestTemplate.postForEntity(SEATS_URL, additionalSeat, ProblemDetail.class);
 
     assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
@@ -102,10 +103,10 @@ class SeatPostControllerTest {
         ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
         List.of(
-            new SeatPostController.Request("A", 1),
-            new SeatPostController.Request("A", 2),
-            new SeatPostController.Request("A", 3),
-            new SeatPostController.Request("A", 4));
+            new AssignSeatsToHallPutController.Request("A", 1),
+            new AssignSeatsToHallPutController.Request("A", 2),
+            new AssignSeatsToHallPutController.Request("A", 3),
+            new AssignSeatsToHallPutController.Request("A", 4));
     var response = testRestTemplate.postForEntity(SEATS_URL, seats, ArrayList.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

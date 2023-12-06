@@ -1,4 +1,4 @@
-package io.warender.skycinema.seats;
+package io.warender.skycinema.cinema_halls;
 
 public final class RepeatedSeatInCinemaHall extends RuntimeException {
 

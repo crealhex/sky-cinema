@@ -1,8 +1,8 @@
-package io.warender.skycinema.seats;
+package io.warender.skycinema.cinema_halls;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.warender.skycinema.cinema_halls.CinemaHallCapacityFull;
-import io.warender.skycinema.cinema_halls.CinemaHallStorage;
+import io.warender.skycinema.seats.Seat;
+import io.warender.skycinema.seats.SeatStorage;
 import io.warender.skycinema.shared.ApiVersions;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public final class SeatPostController {
+public final class AssignSeatsToHallPutController {
 
   private final SeatStorage seatStorage;
   private final CinemaHallStorage cinemaHallStorage;
@@ -28,20 +28,20 @@ public final class SeatPostController {
   // TODO: Verify if the client is sending more seats per row than the max allowed by the screening
   @Tag(name = "Seats")
   @PostMapping(ApiVersions.ONE + "/backoffice/cinema-halls/{cinemaHallId}/seats")
-  public ResponseEntity<List<Seat>> assignSeatsToScreeningRoom(
+  public ResponseEntity<List<Seat>> assignSeatsToCinemaHall(
     @PathVariable Integer cinemaHallId, @RequestBody List<Request> request) {
-    var screeningRoom =
+    var cinemaHall =
         cinemaHallStorage.findById(cinemaHallId).orElseThrow(EntityNotFoundException::new);
 
-    if (screeningRoom.getMaxCapacity() < request.size()) {
+    if (cinemaHall.getMaxCapacity() < request.size()) {
       return ResponseEntity.badRequest().build();
     }
-    if (screeningRoom.getMaxCapacity() <= screeningRoom.getSeatsCount()) {
+    if (cinemaHall.getMaxCapacity() <= cinemaHall.getSeatsCount()) {
       throw new CinemaHallCapacityFull();
     }
 
-    var seats = request.stream().map(r -> new Seat(r.row(), r.number(), screeningRoom)).toList();
-    screeningRoom.getSeats().addAll(seats);
+    var seats = request.stream().map(r -> new Seat(r.row(), r.number(), cinemaHall)).toList();
+    cinemaHall.getSeats().addAll(seats);
 
     try {
       return ResponseEntity.status(HttpStatus.CREATED).body(seatStorage.saveAll(seats));
