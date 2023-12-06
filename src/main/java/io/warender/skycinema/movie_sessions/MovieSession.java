@@ -1,8 +1,8 @@
 package io.warender.skycinema.movie_sessions;
 
+import io.warender.skycinema.cinema_halls.CinemaHall;
 import io.warender.skycinema.movies.Language;
 import io.warender.skycinema.movies.Movie;
-import io.warender.skycinema.screening_rooms.ScreeningRoom;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
@@ -25,8 +25,8 @@ public final class MovieSession {
   private Movie movie;
 
   @ManyToOne
-  @JoinColumn(name = "screening_room_id")
-  private ScreeningRoom screeningRoom;
+  @JoinColumn(name = "cinema_hall_id")
+  private CinemaHall cinemaHall;
 
   @ManyToOne
   @JoinColumn(name = "language_code")
@@ -40,6 +40,9 @@ public final class MovieSession {
 
   @Column(name = "price_in_cents")
   private Integer priceInCents;
+
+  @Column(name = "reserved_seats_count")
+  private int reservedSeatsCount;
 
   @Column(name = "status")
   @Enumerated(EnumType.STRING)

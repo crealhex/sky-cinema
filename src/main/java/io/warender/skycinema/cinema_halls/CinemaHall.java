@@ -1,4 +1,4 @@
-package io.warender.skycinema.screening_rooms;
+package io.warender.skycinema.cinema_halls;
 
 import io.warender.skycinema.seats.Seat;
 import jakarta.persistence.*;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "screening_rooms")
-public final class ScreeningRoom {
+@Table(name = "cinema_halls")
+public final class CinemaHall {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,11 @@ public final class ScreeningRoom {
 
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
-  private ScreeningRoomStatus status;
+  private CinemaHallStatus status;
 
   @Column(name = "seats_count")
   private int seatsCount;
 
-  @OneToMany(mappedBy = "screeningRoom")
+  @OneToMany(mappedBy = "cinemaHall")
   private Set<Seat> seats;
 }

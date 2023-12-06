@@ -2,9 +2,9 @@ package io.warender.skycinema.seats;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.warender.skycinema.screening_rooms.ScreeningRoom;
-import io.warender.skycinema.screening_rooms.ScreeningRoomStatus;
-import io.warender.skycinema.screening_rooms.ScreeningRoomStorage;
+import io.warender.skycinema.cinema_halls.CinemaHall;
+import io.warender.skycinema.cinema_halls.CinemaHallStatus;
+import io.warender.skycinema.cinema_halls.CinemaHallStorage;
 import io.warender.skycinema.shared.ApiVersions;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,23 +23,23 @@ class SeatPostControllerTest {
   private TestRestTemplate testRestTemplate;
 
   @Autowired
-  private ScreeningRoomStorage screeningRoomStorage;
+  private CinemaHallStorage cinemaHallStorage;
 
   @BeforeEach
   void cleanUp() {
-    screeningRoomStorage.deleteAll();
+    cinemaHallStorage.deleteAll();
   }
 
   @Test
   void createSeatAndAttachToScreeningRoom() {
-    var screeningRoom = new ScreeningRoom();
+    var screeningRoom = new CinemaHall();
     screeningRoom.setMaxCapacity(7);
     screeningRoom.setSeatsPerRow(3);
-    screeningRoom.setStatus(ScreeningRoomStatus.OPEN);
-    screeningRoom = screeningRoomStorage.save(screeningRoom);
+    screeningRoom.setStatus(CinemaHallStatus.OPEN);
+    screeningRoom = cinemaHallStorage.save(screeningRoom);
 
     var SEATS_URL =
-        ApiVersions.ONE + "/backoffice/screening-rooms/" + screeningRoom.getId() + "/seats";
+        ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
         Set.of(
             new SeatPostController.Request("A", 1),
@@ -52,14 +52,14 @@ class SeatPostControllerTest {
 
   @Test
   void throwRepeatedSeatInScreeningRoomMessage() {
-    var screeningRoom = new ScreeningRoom();
+    var screeningRoom = new CinemaHall();
     screeningRoom.setMaxCapacity(7);
     screeningRoom.setSeatsPerRow(3);
-    screeningRoom.setStatus(ScreeningRoomStatus.OPEN);
-    screeningRoom = screeningRoomStorage.save(screeningRoom);
+    screeningRoom.setStatus(CinemaHallStatus.OPEN);
+    screeningRoom = cinemaHallStorage.save(screeningRoom);
 
     var SEATS_URL =
-        ApiVersions.ONE + "/backoffice/screening-rooms/" + screeningRoom.getId() + "/seats";
+        ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
         List.of(new SeatPostController.Request("A", 1), new SeatPostController.Request("A", 1));
     var response = testRestTemplate.postForEntity(SEATS_URL, seats, ProblemDetail.class);
@@ -69,14 +69,14 @@ class SeatPostControllerTest {
 
   @Test
   void throwScreeningCapacityIsFullMessage() {
-    var screeningRoom = new ScreeningRoom();
+    var screeningRoom = new CinemaHall();
     screeningRoom.setMaxCapacity(3);
     screeningRoom.setSeatsPerRow(3);
-    screeningRoom.setStatus(ScreeningRoomStatus.OPEN);
-    screeningRoom = screeningRoomStorage.save(screeningRoom);
+    screeningRoom.setStatus(CinemaHallStatus.OPEN);
+    screeningRoom = cinemaHallStorage.save(screeningRoom);
 
     var SEATS_URL =
-        ApiVersions.ONE + "/backoffice/screening-rooms/" + screeningRoom.getId() + "/seats";
+        ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
         List.of(
             new SeatPostController.Request("A", 1),
@@ -92,14 +92,14 @@ class SeatPostControllerTest {
 
   @Test
   void givenMoreSeatsThanAllowed_thenErrorShouldBeThrown() {
-    var screeningRoom = new ScreeningRoom();
+    var screeningRoom = new CinemaHall();
     screeningRoom.setMaxCapacity(3);
     screeningRoom.setSeatsPerRow(3);
-    screeningRoom.setStatus(ScreeningRoomStatus.OPEN);
-    screeningRoom = screeningRoomStorage.save(screeningRoom);
+    screeningRoom.setStatus(CinemaHallStatus.OPEN);
+    screeningRoom = cinemaHallStorage.save(screeningRoom);
 
     var SEATS_URL =
-        ApiVersions.ONE + "/backoffice/screening-rooms/" + screeningRoom.getId() + "/seats";
+        ApiVersions.ONE + "/backoffice/cinema-halls/" + screeningRoom.getId() + "/seats";
     var seats =
         List.of(
             new SeatPostController.Request("A", 1),

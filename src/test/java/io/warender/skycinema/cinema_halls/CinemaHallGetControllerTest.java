@@ -1,4 +1,4 @@
-package io.warender.skycinema.screening_rooms;
+package io.warender.skycinema.cinema_halls;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,40 +12,40 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ScreeningRoomGetControllerTest {
+class CinemaHallGetControllerTest {
 
-  private final static String SCREENING_ROOMS_URL = ApiVersions.ONE + "/backoffice/screening-rooms";
+  private final static String CINEMA_HALLS_URL = ApiVersions.ONE + "/backoffice/cinema-halls";
 
   @Autowired
   private TestRestTemplate testRestTemplate;
 
   @Autowired
-  private ScreeningRoomStorage screeningRoomStorage;
+  private CinemaHallStorage cinemaHallStorage;
 
 
   @BeforeEach
   void cleanUp() {
-    screeningRoomStorage.deleteAll();
+    cinemaHallStorage.deleteAll();
   }
 
   @Test
-  void givenScreeningRoomId_thenReturnScreemingRoomEntity() {
-    var screeningRoom = new ScreeningRoom();
+  void givenCinemaHallId_thenReturnScreemingRoomEntity() {
+    var screeningRoom = new CinemaHall();
     screeningRoom.setMaxCapacity(100);
-    screeningRoom.setStatus(ScreeningRoomStatus.OPEN);
-    screeningRoom = screeningRoomStorage.save(screeningRoom);
+    screeningRoom.setStatus(CinemaHallStatus.OPEN);
+    screeningRoom = cinemaHallStorage.save(screeningRoom);
 
     var response =
-        testRestTemplate.getForEntity(SCREENING_ROOMS_URL + "/" + screeningRoom.getId(), ScreeningRoom.class);
+        testRestTemplate.getForEntity(CINEMA_HALLS_URL + "/" + screeningRoom.getId(), CinemaHall.class);
 
     assertEquals(response.getStatusCode(), HttpStatus.OK);
     assertNotNull(response.getBody());
   }
 
   @Test
-  void givenScreeningRoomId_whenScreeningRoomNotFound_thenReturnNotFound() {
+  void givenCinemaHallId_whenScreeningRoomNotFound_thenReturnNotFound() {
     var response =
-        testRestTemplate.getForEntity(SCREENING_ROOMS_URL + "/999999", ProblemDetail.class);
+        testRestTemplate.getForEntity(CINEMA_HALLS_URL + "/999999", ProblemDetail.class);
 
     assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
   }

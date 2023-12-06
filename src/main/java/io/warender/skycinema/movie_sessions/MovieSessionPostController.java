@@ -1,8 +1,8 @@
 package io.warender.skycinema.movie_sessions;
 
+import io.warender.skycinema.cinema_halls.CinemaHall;
 import io.warender.skycinema.movies.Language;
 import io.warender.skycinema.movies.MovieStorage;
-import io.warender.skycinema.screening_rooms.ScreeningRoom;
 import io.warender.skycinema.shared.ApiVersions;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -25,8 +25,8 @@ public final class MovieSessionPostController {
 
   @PostMapping(ApiVersions.ONE + "/backoffice/movie-sessions")
   public ResponseEntity<MovieSession> registerMovieSession(@Valid @RequestBody Request request) {
-    var screeningRoom = new ScreeningRoom();
-    screeningRoom.setId(request.screeningRoomId());
+    var screeningRoom = new CinemaHall();
+    screeningRoom.setId(request.cinemaHallId());
 
     var movie = movieStorage.findById(request.movieId()).orElseThrow(EntityNotFoundException::new);
 
@@ -35,7 +35,7 @@ public final class MovieSessionPostController {
 
     var movieSession = new MovieSession();
     movieSession.setMovie(movie);
-    movieSession.setScreeningRoom(screeningRoom);
+    movieSession.setCinemaHall(screeningRoom);
     movieSession.setLanguage(language);
     movieSession.setStartTime(request.startTime());
 
@@ -51,7 +51,7 @@ public final class MovieSessionPostController {
 
   public record Request(
       UUID movieId,
-      Integer screeningRoomId,
+      Integer cinemaHallId,
       String languageCode,
       Instant startTime,
       Integer priceInCents) {}

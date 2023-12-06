@@ -1,17 +1,15 @@
 package io.warender.skycinema.seats;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import io.warender.skycinema.screening_rooms.ScreeningRoom;
+import io.warender.skycinema.cinema_halls.CinemaHall;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@ToString
 @Getter
 @Setter
 @Entity
-@Table(name = "seats")
+@Table(name = "cinema_hall_seats")
 @NoArgsConstructor
 @AllArgsConstructor
 public final class Seat {
@@ -22,8 +20,8 @@ public final class Seat {
 
   @ManyToOne
   @JsonBackReference
-  @JoinColumn(name = "screening_room_id")
-  private ScreeningRoom screeningRoom;
+  @JoinColumn(name = "cinema_hall_id")
+  private CinemaHall cinemaHall;
 
   @Column(name = "allocated")
   private boolean allocated;
@@ -34,9 +32,12 @@ public final class Seat {
   @Column(name = "number")
   private int number;
 
-  public Seat(String row, Integer number, ScreeningRoom screeningRoom) {
+  @Column(name = "reserved")
+  private boolean reserved;
+
+  public Seat(String row, Integer number, CinemaHall cinemaHall) {
     this.row = row;
     this.number = number;
-    this.screeningRoom = screeningRoom;
+    this.cinemaHall = cinemaHall;
   }
 }

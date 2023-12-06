@@ -1,4 +1,4 @@
-package io.warender.skycinema.screening_rooms;
+package io.warender.skycinema.cinema_halls;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public final class ScreeningRoomGetController {
+public final class CinemaHallGetController {
 
-  private final ScreeningRoomStorage screeningRoomStorage;
+  private final CinemaHallStorage cinemaHallStorage;
 
-  @Tag(name = "Screening Rooms")
+  @Tag(name = "Cinema Halls")
   @Operation(summary = "Get a screening room by id")
-  @GetMapping(ApiVersions.ONE + "/backoffice/screening-rooms/{screeningRoomId}")
-  public ResponseEntity<ScreeningRoom> getScreeningRooms(@PathVariable Integer screeningRoomId) {
+  @GetMapping(ApiVersions.ONE + "/backoffice/cinema-halls/{cinemaHallId}")
+  public ResponseEntity<CinemaHall> getScreeningRooms(@PathVariable Integer cinemaHallId) {
     return ResponseEntity.ok(
-        screeningRoomStorage.findById(screeningRoomId).orElseThrow(EntityNotFoundException::new));
+        cinemaHallStorage.findById(cinemaHallId).orElseThrow(EntityNotFoundException::new));
   }
 }

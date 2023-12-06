@@ -1,4 +1,4 @@
-package io.warender.skycinema.screening_rooms;
+package io.warender.skycinema.cinema_halls;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public final class ScreeningRoomErrorHandler {
+public final class CinemaHallErrorHandler {
 
-  @ExceptionHandler(ScreeningRoomCapacityFull.class)
-  public ResponseEntity<ProblemDetail> handleRoomCapacityFull(ScreeningRoomCapacityFull ex) {
+  @ExceptionHandler(CinemaHallCapacityFull.class)
+  public ResponseEntity<ProblemDetail> handleRoomCapacityFull(CinemaHallCapacityFull ex) {
     var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
     return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
   }

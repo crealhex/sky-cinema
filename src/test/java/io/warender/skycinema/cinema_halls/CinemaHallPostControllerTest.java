@@ -1,4 +1,4 @@
-package io.warender.skycinema.screening_rooms;
+package io.warender.skycinema.cinema_halls;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,16 +10,16 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ScreeningRoomPostControllerTest {
+class CinemaHallPostControllerTest {
 
   @Autowired
   private TestRestTemplate testRestTemplate;
 
   @Test
   void createScreeningRoom() {
-    var SCREENING_ROOMS_URL = ApiVersions.ONE + "/backoffice/screening-rooms";
-    var screeningRoom = new ScreeningRoomPostController.Request(7, 3, ScreeningRoomStatus.OPEN);
-    var response = testRestTemplate.postForEntity(SCREENING_ROOMS_URL, screeningRoom, ScreeningRoom.class);
+    var CINEMA_HALLS_URL = ApiVersions.ONE + "/backoffice/cinema-halls";
+    var screeningRoom = new CinemaHallPostController.Request(7, 3, CinemaHallStatus.OPEN);
+    var response = testRestTemplate.postForEntity(CINEMA_HALLS_URL, screeningRoom, CinemaHall.class);
     assertEquals(response.getStatusCode(), HttpStatus.CREATED);
   }
 }

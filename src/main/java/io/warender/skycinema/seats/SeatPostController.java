@@ -1,8 +1,8 @@
 package io.warender.skycinema.seats;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.warender.skycinema.screening_rooms.ScreeningRoomCapacityFull;
-import io.warender.skycinema.screening_rooms.ScreeningRoomStorage;
+import io.warender.skycinema.cinema_halls.CinemaHallCapacityFull;
+import io.warender.skycinema.cinema_halls.CinemaHallStorage;
 import io.warender.skycinema.shared.ApiVersions;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -23,21 +23,21 @@ import org.springframework.web.bind.annotation.RestController;
 public final class SeatPostController {
 
   private final SeatStorage seatStorage;
-  private final ScreeningRoomStorage screeningRoomStorage;
+  private final CinemaHallStorage cinemaHallStorage;
 
   // TODO: Verify if the client is sending more seats per row than the max allowed by the screening
   @Tag(name = "Seats")
-  @PostMapping(ApiVersions.ONE + "/backoffice/screening-rooms/{screeningRoomId}/seats")
+  @PostMapping(ApiVersions.ONE + "/backoffice/cinema-halls/{cinemaHallId}/seats")
   public ResponseEntity<List<Seat>> assignSeatsToScreeningRoom(
-    @PathVariable Integer screeningRoomId, @RequestBody List<Request> request) {
+    @PathVariable Integer cinemaHallId, @RequestBody List<Request> request) {
     var screeningRoom =
-        screeningRoomStorage.findById(screeningRoomId).orElseThrow(EntityNotFoundException::new);
+        cinemaHallStorage.findById(cinemaHallId).orElseThrow(EntityNotFoundException::new);
 
     if (screeningRoom.getMaxCapacity() < request.size()) {
       return ResponseEntity.badRequest().build();
     }
     if (screeningRoom.getMaxCapacity() <= screeningRoom.getSeatsCount()) {
-      throw new ScreeningRoomCapacityFull();
+      throw new CinemaHallCapacityFull();
     }
 
     var seats = request.stream().map(r -> new Seat(r.row(), r.number(), screeningRoom)).toList();
@@ -49,7 +49,7 @@ public final class SeatPostController {
       if (e.contains(PSQLException.class)) {
         PSQLException psqlException = (PSQLException) e.getMostSpecificCause();
         if ("23505".equals(psqlException.getSQLState())) {
-          throw new RepeatedSeatInScreeningRoom();
+          throw new RepeatedSeatInCinemaHall();
         }
       }
       throw e;
