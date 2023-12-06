@@ -1,6 +1,7 @@
 package io.warender.skycinema.movie_tickets;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.warender.skycinema.movie_sessions.MovieSession;
 import io.warender.skycinema.orders.Order;
 import jakarta.persistence.*;
 import java.time.Instant;
@@ -39,4 +40,15 @@ public final class Ticket {
   @JsonBackReference
   @JoinColumn(name = "customer_order_id")
   private Order order;
+
+  @ManyToOne
+  @JsonBackReference
+  @JoinColumn(name = "movie_session_id")
+  private MovieSession movieSession;
+
+  @Column(name = "allocated")
+  private boolean allocated;
+
+  @Column(name = "reserved")
+  private boolean reserved;
 }

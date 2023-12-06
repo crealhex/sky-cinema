@@ -1,10 +1,12 @@
 package io.warender.skycinema.movie_sessions;
 
 import io.warender.skycinema.cinema_halls.CinemaHall;
+import io.warender.skycinema.movie_tickets.Ticket;
 import io.warender.skycinema.movies.Language;
 import io.warender.skycinema.movies.Movie;
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +46,13 @@ public final class MovieSession {
   @Column(name = "reserved_seats_count")
   private int reservedSeatsCount;
 
+  @Column(name = "allocated_seats_count")
+  private int allocatedSeatsCount;
+
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
   private MovieSessionStatus status;
+
+  @OneToMany(mappedBy = "movieSession", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Ticket> tickets;
 }

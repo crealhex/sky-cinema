@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class ReserveSeatPutController {
+public class ReserveTicketPutController {
 
   private final OrderStorage orderStorage;
   private final MovieSessionStorage movieSessionStorage;
 
   @Transactional
-  @PutMapping(ApiVersions.ONE + "/movie-sessions/seats")
-  public ResponseEntity<List<Ticket>> reserveSeatForClientSession(@RequestBody Request request) {
+  @PutMapping(ApiVersions.ONE + "/movie-sessions/tickets")
+  public ResponseEntity<List<Ticket>> reserveTicketForClientSession(@RequestBody Request request) {
     var order =
         orderStorage
             .findByClientSessionId(request.clientSessionId())
@@ -36,43 +36,35 @@ public class ReserveSeatPutController {
 
     log.info("Seats the customer wants to purchase {}", request.desirableSeats());
 
-    var seats =
-        movieSession.getCinemaHall().getSeats().stream()
+    var tickets =
+        movieSession.getTickets().stream()
             .filter(
-                seat ->
-                    request.desirableSeats().contains(seat.getId())
-                        && !seat.isReserved()
-                        && !seat.isAllocated())
+                ticket ->
+                    request.desirableSeats().contains(ticket.getId())
+                        && !ticket.isReserved()
+                        && !ticket.isAllocated())
             .toList();
 
-    if (seats.size() != request.desirableSeats().size()) {
+    log.info("Tickets of the movie session {}", movieSession.getTickets());
+    log.info("Size of the tickets {}", tickets.size());
+    log.info("Size of the desirable seats {}", request.desirableSeats().size());
+
+    if (tickets.size() != request.desirableSeats().size()) {
       log.info("Some of the seats are not available");
       return ResponseEntity.badRequest().build();
     }
 
     log.info("All the seats are available");
     log.info("Reserving the seats for the customer");
-    seats.forEach(seat -> seat.setReserved(true));
-    movieSession.setReservedSeatsCount(movieSession.getReservedSeatsCount() + seats.size());
+    tickets.forEach(seat -> seat.setReserved(true));
+    movieSession.setReservedSeatsCount(movieSession.getReservedSeatsCount() + tickets.size());
     movieSessionStorage.save(movieSession);
 
-    log.info("These are all the seats chosen by the customer {}", seats);
+    log.info("These are all the seats chosen by the customer {}", tickets);
     log.info("Now we have to create the tickets for the customer and " +
       "store then in their order using their client session id");
 
-    var tickets = seats.stream()
-      .map(seat -> {
-        var ticket = new Ticket();
-        ticket.setMovieName("My Simple Movie name");
-        ticket.setMovieStartTime(movieSession.getStartTime());
-        ticket.setCinemaHallName("SALA 9");
-        ticket.setSeatNumber(seat.getRow() + seat.getNumber());
-        ticket.setTicketPriceCents(movieSession.getPriceInCents());
-        ticket.setDurationMinutes(movieSession.getMovie().getDurationInMinutes());
-        ticket.setOrder(order);
-        return ticket;
-      })
-      .toList();
+    tickets.forEach(ticket -> ticket.setOrder(order));
 
     log.info("Fill the information of the order and save it with the tickets");
     order.setTotalAmountCents(movieSession.getPriceInCents() * tickets.size());
@@ -82,5 +74,5 @@ public class ReserveSeatPutController {
     return ResponseEntity.ok(tickets);
   }
 
-  public record Request(String clientSessionId, Set<Integer> desirableSeats) {}
+  public record Request(String clientSessionId, Set<Long> desirableSeats) {}
 }
