@@ -1,0 +1,6 @@
+ALTER TABLE movie_tickets
+  ALTER COLUMN customer_order_id DROP NOT NULL;
+ALTER TABLE movie_tickets
+  ADD COLUMN allocated BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE movie_tickets
+  ADD COLUMN reserved BOOLEAN NOT NULL DEFAULT FALSE;
