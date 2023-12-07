@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public final class AssignSeatsToHallPutController {
+public final class AssignSeatsToHallPostController {
 
   private final SeatStorage seatStorage;
   private final CinemaHallStorage cinemaHallStorage;
 
   @Tag(name = "Seats")
-  @PutMapping(ApiVersions.ONE + "/backoffice/cinema-halls/{cinemaHallId}/seats")
+  @PostMapping(ApiVersions.ONE + "/backoffice/cinema-halls/{cinemaHallId}/seats")
   public ResponseEntity<List<Seat>> assignSeatsToCinemaHall(
     @PathVariable Integer cinemaHallId, @RequestBody List<Request> request) {
     var cinemaHall =
