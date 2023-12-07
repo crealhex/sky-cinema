@@ -1,6 +1,5 @@
 package io.warender.skycinema.orders;
 
-import io.warender.skycinema.customers.Customer;
 import io.warender.skycinema.movie_tickets.Ticket;
 import jakarta.persistence.*;
 import java.time.Instant;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "customer_orders")
+@Table(name = "user_orders")
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public final class Order {
 
@@ -23,14 +22,10 @@ public final class Order {
   @Column(name = "client_session_id")
   private String clientSessionId;
 
-  @ManyToOne
-  @JoinColumn(name = "customer_id")
-  private Customer customer;
-
   @Column(name = "movie_session_id")
   private UUID movieSessionId;
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Ticket> tickets;
 
   @Column(name = "total_amount_cents")

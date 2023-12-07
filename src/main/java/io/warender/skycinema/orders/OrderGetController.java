@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public final class OrderGetController {
 
   private final OrderStorage orderStorage;
+  private final OrderTimer orderTimer;
 
   @GetMapping(ApiVersions.ONE + "/orders")
   public ResponseEntity<Map<String, Object>> getOrders(@RequestBody Request request) {
@@ -30,6 +31,7 @@ public final class OrderGetController {
       order.setTotalAmountCents(0);
       order.setCreatedAt(Instant.now());
       order.setStatus(OrderStatus.ONGOING);
+      orderTimer.startCountingTime(order);
       return orderStorage.save(order);
     });
   }
