@@ -23,5 +23,12 @@ services:
     depends_on:
       - db
 
+  mailhog:
+    container_name: sky-cinema-mailhog
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
 volumes:
   postgres_data:

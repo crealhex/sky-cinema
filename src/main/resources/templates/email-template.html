@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <style>
+        .email-container {
+            max-width: 600px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .qr-code {
+            display: block;
+            margin: 20px auto;
+            width: 250px;
+            height: auto;
+        }
+
+        .header, .footer {
+            background-color: #0335A9;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 20px;
+            text-align: left;
+            background-color: #f4f4f4;
+        }
+
+        .content p {
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <title>Happy to see you again</title>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h1>Sky Cinema</h1>
+    </div>
+    <img th:src="|cid:${qrCodeImage}|" alt="Your Sky Cinema Order QR Code" class="qr-code">
+    <div class="content">
+        <p>Dear Selene,</p>
+        <p>We are delighted to confirm your recent purchase at Sky Cinema! Here are the details of your order:</p>
+
+        <h3>Order Summary:</h3>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price per Item</th>
+                <th>Total Price</th>
+            </tr>
+            <tr th:each="ticket :${tickets}">
+                <td th:text="${ticket.movieName}"></td>
+                <td th:text="${ticket.movieStartTime}"></td>
+                <td th:text="${ticket.cinemaHallName}"></td>
+                <td th:text="${ticket.seatNumber}"></td>
+                <td th:text="'S/' + (${ticket.ticketPriceCents / 100.0})"></td>
+            </tr>
+            <tr>
+                <td>Titanic Ticket (Seat A1)</td>
+                <td>1</td>
+                <td>$18.00</td>
+                <td>$18.00</td>
+            </tr>
+            <tr>
+                <td>Titanic Ticket (Seat A3)</td>
+                <td>1</td>
+                <td>$18.00</td>
+                <td>$18.00</td>
+            </tr>
+            <tr>
+                <td>Large Popcorn</td>
+                <td>2</td>
+                <td>$5.00</td>
+                <td>$10.00</td>
+            </tr>
+            <tr>
+                <td>Large Soda</td>
+                <td>2</td>
+                <td>$3.00</td>
+                <td>$6.00</td>
+            </tr>
+            <tr>
+                <td>Chocolate Candies</td>
+                <td>1</td>
+                <td>$4.00</td>
+                <td>$4.00</td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: right;"><strong>Total</strong></td>
+                <td><strong>$56.00</strong></td>
+            </tr>
+        </table>
+
+        <p>Your QR code for the order is attached above. Please present this code at the cinema for quick access to your
+            movie and snacks.</p>
+        <p>If you need any assistance or have questions, feel free to contact us at support@skycinema.com or call
+            1-800-555-CINE.</p>
+        <p>Thank you for choosing Sky Cinema. Enjoy your movie experience!</p>
+        <p>Sincerely,</p>
+        <p>The Sky Cinema Team</p>
+    </div>
+    <div class="footer">
+        <p>Stay connected with us on social media for the latest news and offers!</p>
+        <p>&copy; 2023 Sky Cinema, All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>
