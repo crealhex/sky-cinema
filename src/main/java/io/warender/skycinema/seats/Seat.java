@@ -23,17 +23,14 @@ public final class Seat {
   @JoinColumn(name = "cinema_hall_id")
   private CinemaHall cinemaHall;
 
-  @Column(name = "allocated")
-  private boolean allocated;
+  @Column(name = "enabled")
+  private boolean enabled;
 
   @Column(name = "row")
   private String row;
 
   @Column(name = "number")
   private int number;
-
-  @Column(name = "reserved")
-  private boolean reserved;
 
   public Seat(String row, Integer number, CinemaHall cinemaHall) {
     this.row = row;

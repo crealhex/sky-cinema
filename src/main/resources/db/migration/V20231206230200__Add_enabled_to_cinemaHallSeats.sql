@@ -1,0 +1,2 @@
+ALTER TABLE cinema_hall_seats
+  ADD COLUMN enabled BOOLEAN NOT NULL DEFAULT TRUE;
