@@ -18,7 +18,7 @@ class CinemaHallPostControllerTest {
   @Test
   void createScreeningRoom() {
     var CINEMA_HALLS_URL = ApiVersions.ONE + "/backoffice/cinema-halls";
-    var screeningRoom = new CinemaHallPostController.Request(7, 3, CinemaHallStatus.OPEN);
+    var screeningRoom = new CinemaHallPostController.Request("SALA 1", 7, 3, CinemaHallStatus.OPEN);
     var response = testRestTemplate.postForEntity(CINEMA_HALLS_URL, screeningRoom, CinemaHall.class);
     assertEquals(response.getStatusCode(), HttpStatus.CREATED);
   }

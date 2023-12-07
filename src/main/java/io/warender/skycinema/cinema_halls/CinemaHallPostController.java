@@ -32,6 +32,7 @@ public final class CinemaHallPostController {
   @PostMapping(ApiVersions.ONE + "/backoffice/cinema-halls")
   public ResponseEntity<CinemaHall> createScreeningRoom(@RequestBody Request request) {
     var screeningRoom = new CinemaHall();
+    screeningRoom.setName(request.name());
     screeningRoom.setMaxCapacity(request.maxCapacity());
     screeningRoom.setStatus(request.status());
     screeningRoom.setSeatsPerRow(request.seatsPerRow());
@@ -39,5 +40,6 @@ public final class CinemaHallPostController {
     return ResponseEntity.status(HttpStatus.CREATED).body(createdScreeningRoom);
   }
 
-  public record Request(Integer maxCapacity, Integer seatsPerRow, CinemaHallStatus status) {}
+  public record Request(
+      String name, Integer maxCapacity, Integer seatsPerRow, CinemaHallStatus status) {}
 }

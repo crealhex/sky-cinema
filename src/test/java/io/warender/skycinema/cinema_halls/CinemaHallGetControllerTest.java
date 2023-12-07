@@ -30,13 +30,14 @@ class CinemaHallGetControllerTest {
 
   @Test
   void givenCinemaHallId_thenReturnScreemingRoomEntity() {
-    var screeningRoom = new CinemaHall();
-    screeningRoom.setMaxCapacity(100);
-    screeningRoom.setStatus(CinemaHallStatus.OPEN);
-    screeningRoom = cinemaHallStorage.save(screeningRoom);
+    var cinemaHall = new CinemaHall();
+    cinemaHall.setName("SALA 1");
+    cinemaHall.setMaxCapacity(100);
+    cinemaHall.setStatus(CinemaHallStatus.OPEN);
+    cinemaHall = cinemaHallStorage.save(cinemaHall);
 
     var response =
-        testRestTemplate.getForEntity(CINEMA_HALLS_URL + "/" + screeningRoom.getId(), CinemaHall.class);
+        testRestTemplate.getForEntity(CINEMA_HALLS_URL + "/" + cinemaHall.getId(), CinemaHall.class);
 
     assertEquals(response.getStatusCode(), HttpStatus.OK);
     assertNotNull(response.getBody());
