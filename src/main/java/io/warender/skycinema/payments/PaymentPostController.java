@@ -94,9 +94,8 @@ public class PaymentPostController {
 
     log.info("Send email to the customer");
     Context context = new Context();
-    context.setVariable("qrCodeImage", "qrCodeImage");
     context.setVariable("tickets", tickets);
-    emailService.sendEmail(request.customerEmail(), "This is your order summary", "email-template", context);
+    emailService.sendEmail(request.customerEmail(), "This is your order summary", "customer-order-confirmation", context);
     log.info("Email sent successfully");
 
     return ResponseEntity.ok(payment);

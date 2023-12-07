@@ -19,9 +19,8 @@ public final class EmailController {
   public void sendEmail() throws MessagingException {
     Context context = new Context();
     context.setVariable("message", "This is a test message");
-    context.setVariable("qrCodeImage", "qrCodeImage");
     var tickets = new ArrayList<Ticket>();
     context.setVariable("tickets", tickets);
-    emailService.sendEmail("crealhex@gmail.com", "Test", "email-template", context);
+    emailService.sendEmail("crealhex@gmail.com", "Test", "customer-order-confirmation", context);
   }
 }

@@ -54,7 +54,7 @@
     <div class="header">
         <h1>Sky Cinema</h1>
     </div>
-    <img th:src="|cid:${qrCodeImage}|" alt="Your Sky Cinema Order QR Code" class="qr-code">
+    <img th:src="|cid:qrCodeImage|" alt="Your Sky Cinema Order QR Code" class="qr-code">
     <div class="content">
         <p>Dear Selene,</p>
         <p>We are delighted to confirm your recent purchase at Sky Cinema! Here are the details of your order:</p>
@@ -73,18 +73,6 @@
                 <td th:text="${ticket.cinemaHallName}"></td>
                 <td th:text="${ticket.seatNumber}"></td>
                 <td th:text="'S/' + (${ticket.ticketPriceCents / 100.0})"></td>
-            </tr>
-            <tr>
-                <td>Titanic Ticket (Seat A1)</td>
-                <td>1</td>
-                <td>$18.00</td>
-                <td>$18.00</td>
-            </tr>
-            <tr>
-                <td>Titanic Ticket (Seat A3)</td>
-                <td>1</td>
-                <td>$18.00</td>
-                <td>$18.00</td>
             </tr>
             <tr>
                 <td>Large Popcorn</td>
