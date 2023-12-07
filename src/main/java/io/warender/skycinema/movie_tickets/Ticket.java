@@ -38,7 +38,7 @@ public final class Ticket {
 
   @ManyToOne
   @JsonBackReference
-  @JoinColumn(name = "customer_order_id")
+  @JoinColumn(name = "order_id")
   private Order order;
 
   @ManyToOne

@@ -36,7 +36,7 @@ public final class Payment {
   private boolean termsAndConditions;
 
   @ManyToOne
-  @JoinColumn(name = "customer_order_id")
+  @JoinColumn(name = "order_id")
   private Order order;
 
   @Column(name = "amount_cents")
