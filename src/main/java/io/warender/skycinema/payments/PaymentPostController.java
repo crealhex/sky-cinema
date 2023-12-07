@@ -95,13 +95,13 @@ public class PaymentPostController {
     log.info("Send email to the customer");
     Context context = new Context();
     context.setVariable("tickets", tickets);
-    emailService.sendEmail(request.customerEmail(), "This is your order summary", "customer-order-confirmation", context);
+    orderSuccessNotifier.sendEmail(request.customerEmail(), "This is your order summary", "customer-order-confirmation", context);
     log.info("Email sent successfully");
 
     return ResponseEntity.ok(payment);
   }
 
-  private final EmailService emailService;
+  private final OrderSuccessNotifier orderSuccessNotifier;
 
   private static Payment generatePayment(Request request, Order order) {
     var payment = new Payment();

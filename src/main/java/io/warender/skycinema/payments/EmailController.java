@@ -13,7 +13,7 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public final class EmailController {
 
-  private final EmailService emailService;
+  private final OrderSuccessNotifier orderSuccessNotifier;
 
   @PutMapping(ApiVersions.ONE + "/send-email")
   public void sendEmail() throws MessagingException {
@@ -21,6 +21,6 @@ public final class EmailController {
     context.setVariable("message", "This is a test message");
     var tickets = new ArrayList<Ticket>();
     context.setVariable("tickets", tickets);
-    emailService.sendEmail("crealhex@gmail.com", "Test", "customer-order-confirmation", context);
+    orderSuccessNotifier.sendEmail("crealhex@gmail.com", "Test", "customer-order-confirmation", context);
   }
 }

@@ -14,11 +14,11 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Service
 @RequiredArgsConstructor
-public class EmailService {
+public class OrderSuccessNotifier {
 
   private final JavaMailSender mailSender;
   private final SpringTemplateEngine templateEngine;
-  private final QrCodeService qrCodeService;
+  private final QrCodeGenerator qrCodeGenerator;
 
   @Async
   public void sendEmail(String to, String subject, String templateName, Context context)
@@ -32,7 +32,7 @@ public class EmailService {
     byte[] qrCodeImageBytes;
 
     try {
-      qrCodeImageBytes = qrCodeService.generateQRCodeImage(String.valueOf(orderId), 500, 500);
+      qrCodeImageBytes = qrCodeGenerator.generateQRCodeImage(String.valueOf(orderId), 500, 500);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

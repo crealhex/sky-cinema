@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 import org.springframework.stereotype.Service;
 
 @Service
-public class QrCodeService {
+public class QrCodeGenerator {
 
     public byte[] generateQRCodeImage(String text, int width, int height) throws Exception {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
