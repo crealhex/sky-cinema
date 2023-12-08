@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public final class OrderGetController {
+public final class OrdersGetController {
 
   private final OrderStorage orderStorage;
   private final OrderTimer orderTimer;
