@@ -1,5 +1,6 @@
 package io.warender.skycinema.orders;
 
+import io.warender.skycinema.concession_picks.ConcessionPick;
 import io.warender.skycinema.movie_tickets.Ticket;
 import jakarta.persistence.*;
 import java.time.Instant;
@@ -12,7 +13,6 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "user_orders")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public final class Order {
 
   @Id
@@ -27,6 +27,9 @@ public final class Order {
 
   @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Ticket> tickets;
+
+  @OneToMany(mappedBy = "order", orphanRemoval = true)
+  private Set<ConcessionPick> concessions;
 
   @Column(name = "total_amount_cents")
   private Integer totalAmountCents;
